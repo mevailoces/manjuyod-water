@@ -1,0 +1,879 @@
+import "./AdminDashboard.css";
+
+import logo from "../assets/logo.png";
+
+import {
+  Receipt,
+  FileText,
+  Users,
+  Bell,
+  Search,
+  LogOut,
+} from "lucide-react";
+
+import {
+  useEffect,
+  useState,
+  useMemo,
+  useRef,
+} from "react";
+
+import axios from "axios";
+
+import {
+  useNavigate,
+} from "react-router-dom";
+
+function Billing() {
+
+  const navigate =
+    useNavigate();
+
+  const [users, setUsers] =
+    useState([]);
+
+  const [bills, setBills] =
+    useState([]);
+
+  const [search, setSearch] =
+    useState("");
+
+    const [
+  consumerSearch,
+  setConsumerSearch,
+] = useState("");
+
+const [
+  showSuggestions,
+  setShowSuggestions,
+] = useState(false);
+
+  const [notifications, setNotifications] =
+    useState([]);
+
+  const [showNotifications, setShowNotifications] =
+    useState(false);
+
+  const notificationRef =
+    useRef(null);
+
+  const [formData, setFormData] =
+    useState({
+
+      userId: "",
+      accountNumber: "",
+      previousReading: "",
+      currentReading: "",
+      readingDate: "",
+      dueDate: "",
+      meterReaderName: "",
+
+    });
+
+  useEffect(() => {
+
+    fetchUsers();
+
+    fetchBills();
+
+    fetchNotifications();
+
+  }, []);
+
+  const fetchUsers =
+  async () => {
+
+    try {
+
+      const res =
+        await axios.get(
+          "http://localhost:5000/api/admin/approved-users"
+        );
+
+      setUsers(
+        res.data
+      );
+
+    }
+
+    catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
+  const fetchBills =
+    async () => {
+
+      try {
+
+        const res =
+          await axios.get(
+            "http://localhost:5000/api/admin/billing"
+          );
+
+        setBills(
+          res.data
+        );
+
+      }
+
+      catch (error) {
+
+        console.log(error);
+
+      }
+
+    };
+
+  const fetchNotifications =
+    async () => {
+
+      try {
+
+        const res =
+          await axios.get(
+            "http://localhost:5000/api/admin/notifications"
+          );
+
+        setNotifications(
+          res.data
+        );
+
+      }
+
+      catch (error) {
+
+        console.log(error);
+
+      }
+
+    };
+
+  useEffect(() => {
+
+    const handleClickOutside =
+      (event) => {
+
+        if (
+
+          notificationRef.current &&
+
+          !notificationRef.current.contains(
+            event.target
+          )
+
+        ) {
+
+          setShowNotifications(false);
+
+        }
+
+      };
+
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+
+    return () => {
+
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+
+    };
+
+  }, []);
+
+  const handleChange =
+    (e) => {
+
+      setFormData({
+
+        ...formData,
+
+        [e.target.name]:
+          e.target.value,
+
+      });
+
+    };
+
+  const handleCreateBill =
+    async (e) => {
+
+      e.preventDefault();
+
+      try {
+
+        await axios.post(
+          "http://localhost:5000/api/admin/billing/create",
+          formData
+        );
+
+        alert(
+          "Bill created successfully"
+        );
+
+        fetchBills();
+
+        setFormData({
+
+          userId: "",
+          accountNumber: "",
+          previousReading: "",
+          currentReading: "",
+          readingDate: "",
+          dueDate: "",
+          meterReaderName: "",
+
+        });
+
+      }
+
+      catch (error) {
+
+        console.log(error);
+
+      }
+
+    };
+
+  const markAsPaid =
+    async (billId) => {
+
+      try {
+
+        await axios.put(
+          `http://localhost:5000/api/admin/billing/status/${billId}`,
+          {
+            status: "Paid",
+          }
+        );
+
+        fetchBills();
+
+      }
+
+      catch (error) {
+
+        console.log(error);
+
+      }
+
+    };
+
+  const filteredBills =
+    useMemo(() => {
+
+      return bills.filter(
+        (bill) => {
+
+          return (
+
+            bill.userId?.fullName
+              ?.toLowerCase()
+              .includes(
+                search.toLowerCase()
+              )
+
+            ||
+
+            bill.accountNumber
+              ?.toLowerCase()
+              .includes(
+                search.toLowerCase()
+              )
+
+          );
+
+        }
+      );
+
+    }, [
+
+      bills,
+      search,
+
+    ]);
+
+  return (
+
+    <div className="dashboard-layout">
+
+      <aside className="sidebar">
+
+        <div className="sidebar-header">
+
+          <img
+            src={logo}
+            alt="logo"
+            className="sidebar-logo"
+          />
+
+          <div>
+
+            <h1>
+              MANJUYOD
+            </h1>
+
+            <p>
+              WATERWORKS SYSTEM
+            </p>
+
+          </div>
+
+        </div>
+
+        <nav className="sidebar-nav">
+
+          <button
+            className="nav-item"
+            onClick={() =>
+              navigate(
+                "/admin-dashboard"
+              )
+            }
+          >
+
+            <FileText size={18} />
+
+            <span>
+              Application Management
+            </span>
+
+          </button>
+
+          <button
+            className="nav-item"
+            onClick={() =>
+              navigate(
+                "/consumer-records"
+              )
+            }
+          >
+
+            <Users size={18} />
+
+            <span>
+              Consumer Records
+            </span>
+
+          </button>
+
+          <button
+            className="nav-item active"
+          >
+
+            <Receipt size={18} />
+
+            <span>
+              Billing
+            </span>
+
+          </button>
+
+        </nav>
+
+        <button
+          className="logout-btn"
+          onClick={() =>
+            navigate("/")
+          }
+        >
+
+          <LogOut size={18} />
+
+          Logout
+
+        </button>
+
+      </aside>
+
+      <main className="main-content">
+
+        <header className="topbar">
+
+          <div>
+
+            <p className="topbar-label">
+              ADMIN PORTAL
+            </p>
+
+            <h2>
+              Billing Management
+            </h2>
+
+          </div>
+
+          <div
+            className="notification-wrapper"
+            ref={notificationRef}
+          >
+
+            <button
+              className="notification-btn"
+              onClick={() =>
+                setShowNotifications(
+                  !showNotifications
+                )
+              }
+            >
+
+              <Bell size={22} />
+
+              {notifications.length > 0 && (
+
+                <span className="notification-badge">
+
+                  {notifications.length}
+
+                </span>
+
+              )}
+
+            </button>
+
+            {showNotifications && (
+
+              <div className="notification-dropdown">
+
+                <h4>
+                  Notifications
+                </h4>
+
+                {notifications.length === 0 ? (
+
+                  <p>
+                    No notifications
+                  </p>
+
+                ) : (
+
+                  notifications.map((item) => (
+
+                    <div
+                      key={item._id}
+                      className="notification-item"
+                    >
+
+                      <p>
+                        {item.message}
+                      </p>
+
+                      <small>
+
+                        {new Date(
+                          item.createdAt
+                        ).toLocaleString()}
+
+                      </small>
+
+                    </div>
+
+                  ))
+
+                )}
+
+              </div>
+
+            )}
+
+          </div>
+
+        </header>
+
+        <section className="table-section">
+
+          <form
+            onSubmit={
+              handleCreateBill
+            }
+            className="billing-form"
+          >
+
+            <div className="consumer-search-wrapper">
+
+  <input
+    type="text"
+    placeholder="Search consumer name or account number..."
+    value={consumerSearch}
+
+    onChange={(e) => {
+
+      setConsumerSearch(
+        e.target.value
+      );
+
+      setShowSuggestions(true);
+
+    }}
+
+    className="billing-input"
+    required
+  />
+
+  {
+
+    showSuggestions
+
+    &&
+
+    consumerSearch
+
+    &&
+
+    <div className="consumer-suggestions">
+
+      {
+
+        users
+
+        .filter((user) =>
+
+          user.fullName
+            ?.toLowerCase()
+            .includes(
+              consumerSearch.toLowerCase()
+            )
+
+          ||
+
+          user.accountNumber
+            ?.toLowerCase()
+            .includes(
+              consumerSearch.toLowerCase()
+            )
+
+        )
+
+        .map((user) => (
+
+          <div
+
+            key={user._id}
+
+            className="consumer-suggestion-item"
+
+            onClick={() => {
+
+              setFormData({
+
+                ...formData,
+
+                userId:
+                  user._id,
+
+                accountNumber:
+                  user.accountNumber,
+
+              });
+
+              setConsumerSearch(
+                `${user.fullName}`
+              );
+
+              setShowSuggestions(false);
+
+            }}
+
+          >
+
+            <strong>
+              {user.fullName}
+            </strong>
+
+            <span>
+              {user.accountNumber}
+            </span>
+
+          </div>
+
+        ))
+
+      }
+
+    </div>
+
+  }
+
+</div>
+
+            <input
+              type="text"
+              name="accountNumber"
+              placeholder="Account Number"
+              value={
+                formData.accountNumber
+              }
+              onChange={
+                handleChange
+              }
+              required
+            />
+
+            <input
+              type="number"
+              name="previousReading"
+              placeholder="Previous Reading"
+              value={
+                formData.previousReading
+              }
+              onChange={
+                handleChange
+              }
+              required
+            />
+
+            <input
+              type="number"
+              name="currentReading"
+              placeholder="Current Reading"
+              value={
+                formData.currentReading
+              }
+              onChange={
+                handleChange
+              }
+              required
+            />
+
+            <input
+              type="date"
+              name="readingDate"
+              value={
+                formData.readingDate
+              }
+              onChange={
+                handleChange
+              }
+              required
+            />
+
+            <input
+              type="date"
+              name="dueDate"
+              value={
+                formData.dueDate
+              }
+              onChange={
+                handleChange
+              }
+              required
+            />
+
+            <input
+              type="text"
+              name="meterReaderName"
+              placeholder="Meter Reader Name"
+              value={
+                formData.meterReaderName
+              }
+              onChange={
+                handleChange
+              }
+              required
+            />
+
+            <button
+              type="submit"
+              className="primary-btn"
+            >
+
+              Create Bill
+
+            </button>
+
+          </form>
+
+          <div className="billing-guide">
+
+            <h4>
+              Billing Rate Guide
+            </h4>
+
+            <p>
+
+              Current Water Rate:
+              <strong>
+                ₱25 per cubic meter (m³)
+              </strong>
+
+            </p>
+
+            <p>
+
+              Formula:
+              <strong>
+
+                {" "}
+                (Current Reading - Previous Reading) × ₱25
+
+              </strong>
+
+            </p>
+
+          </div>
+
+        </section>
+
+        <section className="table-section">
+
+          <div className="table-toolbar">
+
+            <h2>
+              Billing Records
+            </h2>
+
+            <div className="search-box">
+
+              <Search size={18} />
+
+              <input
+                type="text"
+                placeholder="Search resident or account number..."
+                value={search}
+                onChange={(e) =>
+                  setSearch(
+                    e.target.value
+                  )
+                }
+              />
+
+            </div>
+
+          </div>
+
+          <div className="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>Consumer</th>
+                  <th>Account #</th>
+                  <th>Consumption</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Meter Reader</th>
+                  <th>Actions</th>
+
+                </tr>
+
+              </thead>
+
+              <tbody>
+
+                {filteredBills.map(
+                  (bill) => (
+
+                    <tr
+                      key={bill._id}
+                    >
+
+                      <td>
+
+                        {
+                          bill.userId
+                            ?.fullName
+                        }
+
+                      </td>
+
+                      <td>
+                        {
+                          bill.accountNumber
+                        }
+                      </td>
+
+                      <td>
+
+                        {
+                          bill.consumption
+                        } m³
+
+                      </td>
+
+                      <td>
+
+                        ₱
+                        {
+                          bill.amount
+                        }
+
+                      </td>
+
+                      <td>
+                        {
+                          bill.status
+                        }
+                      </td>
+
+                      <td>
+
+                        {
+                          bill.meterReaderName
+                        }
+
+                      </td>
+
+                      <td>
+
+                        {bill.status ===
+                        "Unpaid" ? (
+
+                          <button
+                            className="primary-btn"
+                            onClick={() =>
+                              markAsPaid(
+                                bill._id
+                              )
+                            }
+                          >
+
+                            Mark Paid
+
+                          </button>
+
+                        ) : (
+
+                          <span>
+
+                            Paid on{" "}
+                            {
+                              bill.paidDate
+                            }
+
+                          </span>
+
+                        )}
+
+                      </td>
+
+                    </tr>
+
+                  )
+                )}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+
+  );
+
+}
+
+export default Billing;

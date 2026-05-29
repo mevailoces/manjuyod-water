@@ -1,0 +1,258 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+}
+
+.application-page {
+
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      rgba(8, 42, 99, 0.72),
+      rgba(8, 42, 99, 0.72)
+    ),
+    url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e");
+  background-size: cover;
+
+  background-position: center;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 40px 20px;
+}
+
+.application-card {
+
+  width: 100%;
+  max-width: 430px;
+
+  background: white;
+
+  border-radius: 26px;
+
+  padding: 40px;
+
+  box-shadow:
+    0 12px 35px
+    rgba(0,0,0,0.22);
+
+  text-align: center;
+}
+
+.application-logo {
+
+  width: 90px;
+  height: 90px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  margin: 0 auto 20px auto;
+
+  display: block;
+}
+
+.application-card h1 {
+
+  color: #082a63;
+
+  margin-bottom: 30px;
+
+  font-size: 2.8rem;
+
+  line-height: 1.1;
+
+  font-weight: 800;
+}
+
+/* FORM */
+
+.application-card form {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+.application-card input,
+.application-card select {
+
+  width: 100%;
+
+  padding: 15px 16px;
+
+  border-radius: 12px;
+
+  border: 1px solid #d7dce5;
+
+  font-size: 15px;
+
+  outline: none;
+
+  background: white;
+
+  transition: 0.2s;
+}
+
+.application-card input:focus,
+.application-card select:focus {
+
+  border-color: #0b2d63;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(11,45,99,0.12);
+}
+
+/* FILE */
+
+.upload-label {
+
+  text-align: left;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  color: #333;
+
+  margin-top: 4px;
+}
+
+.application-card input[type="file"] {
+
+  padding: 12px;
+
+  background: #fff;
+}
+
+/* MOA */
+
+.moa-box {
+
+  margin-top: 6px;
+
+  padding: 16px;
+
+  border: 1px solid #dcdcdc;
+
+  border-radius: 14px;
+
+  background: #f9fafb;
+
+  text-align: left;
+}
+
+.moa-box h3 {
+
+  font-size: 14px;
+
+  color: #0f3b8c;
+
+  margin-bottom: 12px;
+}
+
+.moa-box p {
+
+  max-height: 180px;
+
+  overflow-y: auto;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+
+  color: #444;
+
+  padding-right: 6px;
+}
+
+.agree-checkbox {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 10px;
+
+  margin-top: 14px;
+
+  font-size: 13px;
+
+  color: #222;
+}
+
+.agree-checkbox input {
+
+  width: auto;
+
+  margin-top: 3px;
+}
+
+/* BUTTON */
+
+.submit-btn {
+
+  margin-top: 10px;
+
+  padding: 16px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #0b2d63;
+
+  color: white;
+
+  font-size: 1rem;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.submit-btn:hover {
+
+  background: #15408b;
+
+  transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+
+  opacity: 0.7;
+
+  cursor: not-allowed;
+}
+
+/* MOBILE */
+
+@media (max-width: 520px) {
+
+  .application-card {
+
+    padding: 28px 22px;
+  }
+
+  .application-card h1 {
+
+    font-size: 2.2rem;
+  }
+
+}
