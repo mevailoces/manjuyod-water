@@ -36,7 +36,7 @@ export default function PortalLogin() {
 
       const response =
         await fetch(
-          "http://localhost:5000/api/login",
+          "https://manjuyod-water-production.up.railway.app/api/login",
           {
             method: "POST",
 

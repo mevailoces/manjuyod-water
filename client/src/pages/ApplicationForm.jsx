@@ -146,7 +146,7 @@ function ApplicationForm() {
 
         const response =
           await fetch(
-            "http://localhost:5000/api/register",
+            "https://manjuyod-water-production.up.railway.app/api/register",
             {
               method: "POST",
               body: submitData,

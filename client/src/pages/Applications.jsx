@@ -73,7 +73,7 @@ function Applications() {
 
       const response =
         await fetch(
-          "http://localhost:5000/api/admin/users"
+          "https://manjuyod-water-production.up.railway.app/api/admin/users"
         );
 
       const data =
@@ -102,7 +102,7 @@ function Applications() {
 
         const response =
           await fetch(
-            `http://localhost:5000/api/admin/status/${id}`,
+            `https://manjuyod-water-production.up.railway.app/api/admin/status/${id}`,
             {
               method: "PUT",
               headers: {

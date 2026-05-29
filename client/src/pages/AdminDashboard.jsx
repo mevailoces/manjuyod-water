@@ -103,7 +103,7 @@ useEffect(() => {
 
         const res =
           await axios.get(
-            "http://localhost:5000/api/admin/users"
+            "https://manjuyod-water-production.up.railway.app/api/admin/users"
           );
 
         setUsers(res.data);
@@ -131,7 +131,7 @@ useEffect(() => {
 
         const res =
           await axios.get(
-            "http://localhost:5000/api/admin/notifications"
+            "https://manjuyod-water-production.up.railway.app/api/admin/notifications"
           );
 
         setNotifications(res.data);
@@ -152,7 +152,7 @@ useEffect(() => {
       try {
 
         await axios.put(
-          `http://localhost:5000/api/admin/status/${id}`,
+          `https://manjuyod-water-production.up.railway.app/api/admin/status/${id}`,
           { status }
         );
 
@@ -183,7 +183,7 @@ useEffect(() => {
       try {
 
         await axios.delete(
-          `http://localhost:5000/api/admin/user/${id}`
+          `https://manjuyod-water-production.up.railway.app/api/admin/user/${id}`
         );
 
         fetchUsers();
@@ -1016,7 +1016,7 @@ useEffect(() => {
     }
 
     window.open(
-      `http://localhost:5000/uploads/${user.validId}`,
+      `https://manjuyod-water-production.up.railway.app/uploads/${user.validId}`,
       "_blank"
     );
 

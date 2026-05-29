@@ -87,7 +87,7 @@ const [
 
       const res =
         await axios.get(
-          "http://localhost:5000/api/admin/approved-users"
+          "https://manjuyod-water-production.up.railway.app/api/admin/approved-users"
         );
 
       setUsers(
@@ -110,7 +110,7 @@ const [
 
         const res =
           await axios.get(
-            "http://localhost:5000/api/admin/billing"
+            "https://manjuyod-water-production.up.railway.app/api/admin/billing"
           );
 
         setBills(
@@ -134,7 +134,7 @@ const [
 
         const res =
           await axios.get(
-            "http://localhost:5000/api/admin/notifications"
+            "https://manjuyod-water-production.up.railway.app/api/admin/notifications"
           );
 
         setNotifications(
@@ -210,7 +210,7 @@ const [
       try {
 
         await axios.post(
-          "http://localhost:5000/api/admin/billing/create",
+          "https://manjuyod-water-production.up.railway.app/api/admin/billing/create",
           formData
         );
 
@@ -248,7 +248,7 @@ const [
       try {
 
         await axios.put(
-          `http://localhost:5000/api/admin/billing/status/${billId}`,
+          `https://manjuyod-water-production.up.railway.app/api/admin/billing/status/${billId}`,
           {
             status: "Paid",
           }

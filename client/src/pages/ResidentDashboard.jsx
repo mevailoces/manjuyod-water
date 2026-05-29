@@ -78,7 +78,7 @@ const ResidentDashboard = () => {
     if (!user?._id) return;
 
     fetch(
-      `http://localhost:5000/api/admin/billing/user/${user._id}`
+      `https://manjuyod-water-production.up.railway.app/api/admin/billing/user/${user._id}`
     )
 
       .then((res) => res.json())

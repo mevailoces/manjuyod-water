@@ -1,0 +1,184 @@
+﻿Diagnose log at 2026-05-29T11:40:00Z
+
+AppPath: C:\Program Files\Git\mingw64\bin\git-credential-manager.exe
+InstallDir: C:\Program Files\Git\mingw64\bin\
+Version: 2.6.1+786ab03440ddc82e807a97c0e540f5247e44cec6
+
+------------
+Diagnostic: Environment
+Skipped: False
+Success: True
+Exception: None
+Log:
+OSType: Windows
+OSVersion: 10.0 (build 26200)
+Reading environment variables... OK
+ Variables:
+PROCESSOR_ARCHITEW6432=AMD64
+DriverData=C:\Windows\System32\Drivers\DriverData
+COMPUTERNAME=JERGO-PC
+GIT_TRACE2_PARENT_SID=be8d3c35-3064-4999-891f-92942e3156db
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+EFC_18440_2775293581=1
+EFC_18440_3789132940=1
+SESSIONNAME=Console
+TMP=C:\Users\JERGO\AppData\Local\Temp
+PROCESSOR_REVISION=a503
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+HOMEPATH=\Users\JERGO
+GIT_EXEC_PATH=C:/Program Files/Git/mingw64/libexec/git-core
+TEMP=C:\Users\JERGO\AppData\Local\Temp
+LOCALAPPDATA=C:\Users\JERGO\AppData\Local
+MSYSTEM=MINGW64
+OneDrive=C:\Users\JERGO\OneDrive
+COLORTERM=truecolor
+USERDOMAIN=JERGO-PC
+Path=C:/Program Files/Git/mingw64/libexec/git-core;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\JERGO\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\dotnet\;C:\Program Files\nodejs\;C:\Users\JERGO\AppData\Local\Microsoft\WindowsApps;C:\Users\JERGO\AppData\Local\GitHubDesktop\bin;C:\Users\JERGO\AppData\Local\gitkraken\bin;C:\Users\JERGO\AppData\Roaming\npm;C:\Users\JERGO\AppData\Local\Programs\Microsoft VS Code\bin
+PROCESSOR_LEVEL=6
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 165 Stepping 3, GenuineIntel
+TMPDIR=C:\Users\JERGO\AppData\Local\Temp
+EFC_18440_2283032206=1
+PROMPT=$P$G
+ProgramFiles(x86)=C:\Program Files (x86)
+PUBLIC=C:\Users\Public
+NUMBER_OF_PROCESSORS=12
+FPS_BROWSER_USER_PROFILE_STRING=Default
+CommonProgramFiles=C:\Program Files (x86)\Common Files
+TERM=xterm-256color
+EFC_18440_1592913036=1
+PLINK_PROTOCOL=ssh
+ProgramData=C:\ProgramData
+ProgramW6432=C:\Program Files
+ProgramFiles=C:\Program Files (x86)
+SystemRoot=C:\WINDOWS
+HOME=C:\Users\JERGO
+LC_CTYPE=C.UTF-8
+CommonProgramW6432=C:\Program Files\Common Files
+ZES_ENABLE_SYSMAN=1
+LOGONSERVER=\\JERGO-PC
+USERPROFILE=C:\Users\JERGO
+EFC_18440_1262719628=1
+USERDOMAIN_ROAMINGPROFILE=JERGO-PC
+APPDATA=C:\Users\JERGO\AppData\Roaming
+HOMEDRIVE=C:
+EFC_18440_4126798990=1
+PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+USERNAME=JERGO
+FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+PROCESSOR_ARCHITECTURE=x86
+OS=Windows_NT
+ComSpec=C:\WINDOWS\system32\cmd.exe
+SystemDrive=C:
+windir=C:\WINDOWS
+ALLUSERSPROFILE=C:\ProgramData
+
+
+------------
+Diagnostic: File system
+Skipped: False
+Success: True
+Exception: None
+Log:
+Temporary directory is 'C:\Users\JERGO\AppData\Local\Temp\'...
+Checking basic file I/O...
+Writing to temporary file 'C:\Users\JERGO\AppData\Local\Temp\1e754aecae97ef984e044f72'... OK
+Reading from temporary file 'C:\Users\JERGO\AppData\Local\Temp\1e754aecae97ef984e044f72'... OK
+Deleting temporary file 'C:\Users\JERGO\AppData\Local\Temp\1e754aecae97ef984e044f72'... OK
+Testing IFileSystem instance...
+UserHomePath: C:\Users\JERGO
+UserDataDirectoryPath: C:\Users\JERGO\.gcm
+GetCurrentDirectory(): C:\Users\JERGO\Desktop\manjuyod-water
+
+------------
+Diagnostic: Networking
+Skipped: False
+Success: False
+Exception:
+System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: The remote name could not be resolved: 'example.com'
+   at System.Net.HttpWebRequest.EndGetResponse(IAsyncResult asyncResult)
+   at System.Net.Http.HttpClientHandler.GetResponseCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at GitCredentialManager.Diagnostics.NetworkingDiagnostic.<RunInternalAsync>d__4.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at GitCredentialManager.Diagnostics.Diagnostic.<RunAsync>d__6.MoveNext()
+Log:
+Checking networking and HTTP stack...
+Creating HTTP client... OK
+IsNetworkAvailable: True
+Sending HEAD request to http://example.com...Sending HEAD request to https://example.com... warning: HEAD request failed
+Sending HEAD request to http://httpforever.com...
+------------
+Diagnostic: Git
+Skipped: False
+Success: True
+Exception: None
+Log:
+Getting Git version... OK
+Git version is '2.50.1.windows.1'
+Locating current repository...Git repository at 'C:/Users/JERGO/Desktop/manjuyod-water/.git'
+ OK
+Listing all Git configuration... OK
+Git configuration:
+file:C:/Program Files/Git/etc/gitconfig	diff.astextplain.textconv=astextplain
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.clean=git-lfs clean -- %f
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.smudge=git-lfs smudge -- %f
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.process=git-lfs filter-process
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.required=true
+file:C:/Program Files/Git/etc/gitconfig	http.sslbackend=schannel
+file:C:/Program Files/Git/etc/gitconfig	core.autocrlf=true
+file:C:/Program Files/Git/etc/gitconfig	core.fscache=true
+file:C:/Program Files/Git/etc/gitconfig	core.symlinks=false
+file:C:/Program Files/Git/etc/gitconfig	pull.rebase=false
+file:C:/Program Files/Git/etc/gitconfig	credential.helper=manager
+file:C:/Program Files/Git/etc/gitconfig	credential.https://dev.azure.com.usehttppath=true
+file:C:/Program Files/Git/etc/gitconfig	init.defaultbranch=master
+file:C:/Users/JERGO/.gitconfig	user.email=jergoa@marketing360services.com
+file:C:/Users/JERGO/.gitconfig	user.name=RR-JergoA
+file:C:/Users/JERGO/.gitconfig	filter.lfs.smudge=git-lfs smudge -- %f
+file:C:/Users/JERGO/.gitconfig	filter.lfs.process=git-lfs filter-process
+file:C:/Users/JERGO/.gitconfig	filter.lfs.required=true
+file:C:/Users/JERGO/.gitconfig	filter.lfs.clean=git-lfs clean -- %f
+file:C:/Users/JERGO/.gitconfig	safe.directory=C:/Users/JERGO/Documents/Projects/digitalhub-frontend
+file:C:/Users/JERGO/.gitconfig	credential.helper=manager-core
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=false
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	core.symlinks=false
+file:.git/config	core.ignorecase=true
+file:.git/config	remote.origin.url=https://github.com/mevailoces/manjyod-water.git
+file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+
+
+------------
+Diagnostic: Credential storage
+Skipped: False
+Success: True
+Exception: None
+Log:
+ICredentialStore instance is of type: CredentialStore
+Writing test credential... OK
+Reading test credential... OK
+Deleting test credential... OK
+
+------------
+Diagnostic: Microsoft authentication (AAD/MSA)
+Skipped: False
+Success: True
+Exception: None
+Log:
+Broker is not enabled.
+Flow type is: Auto
+Gathering MSAL token cache data... OK
+CacheDirectory: C:\Users\JERGO\AppData\Local\.IdentityService
+CacheFileName: msal.cache
+CacheFilePath: C:\Users\JERGO\AppData\Local\.IdentityService\msal.cache
+Creating cache helper... OK
+Verifying MSAL token cache persistence... OK
+

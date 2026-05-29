@@ -64,7 +64,7 @@ function ConsumerRecords() {
 
         const res =
           await axios.get(
-            "http://localhost:5000/api/admin/approved-users"
+            "https://manjuyod-water-production.up.railway.app/api/admin/approved-users"
           );
 
         setUsers(
@@ -88,7 +88,7 @@ function ConsumerRecords() {
 
         const res =
           await axios.get(
-            "http://localhost:5000/api/admin/notifications"
+            "https://manjuyod-water-production.up.railway.app/api/admin/notifications"
           );
 
         setNotifications(

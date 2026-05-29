@@ -22,7 +22,7 @@ export default function AdminLogin() {
 
       const response =
         await fetch(
-          "http://localhost:5000/api/admin-login",
+          "https://manjuyod-water-production.up.railway.app/api/admin-login",
           {
             method: "POST",
 
