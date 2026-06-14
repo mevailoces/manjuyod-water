@@ -7,7 +7,9 @@ rgba(0,44,120,.65),
 rgba(0,44,120,.65)
 ),
 
-url("../assets/manjuyod-building.jpg")background-size:cover;
+url("../assets/manjuyod-building.jpg");
+
+background-size:cover;
 
 display:flex;
 
