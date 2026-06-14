@@ -149,8 +149,9 @@ export default function PortalLogin() {
             </p>
 
             <form
-              onSubmit={handleLogin}
-            >
+  onSubmit={handleLogin}
+  autoComplete="off"
+>
 
               <div className="input-group">
 
@@ -161,6 +162,7 @@ export default function PortalLogin() {
                 <input
                   type="email"
                   name="email"
+                  autoComplete="off"
                   placeholder="Enter your email"
                   value={loginData.email}
                   onChange={handleChange}

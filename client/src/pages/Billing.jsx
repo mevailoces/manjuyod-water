@@ -495,7 +495,11 @@ const [
             className="billing-form"
           >
 
-            <div className="consumer-search-wrapper">
+            <div className="form-field consumer-search-wrapper">
+
+  <label>
+    Consumer Name
+  </label>
 
   <input
     type="text"
@@ -602,68 +606,71 @@ const [
 
 </div>
 
-            <input
-              type="text"
-              name="accountNumber"
-              placeholder="Account Number"
-              value={
-                formData.accountNumber
-              }
-              onChange={
-                handleChange
-              }
-              required
-            />
+           <div className="form-field">
+  <label>Account Number</label>
 
-            <input
-              type="number"
-              name="previousReading"
-              placeholder="Previous Reading"
-              value={
-                formData.previousReading
-              }
-              onChange={
-                handleChange
-              }
-              required
-            />
+  <input
+    type="text"
+    name="accountNumber"
+    value={formData.accountNumber}
+    onChange={handleChange}
+    required
+  />
+</div>
 
-            <input
-              type="number"
-              name="currentReading"
-              placeholder="Current Reading"
-              value={
-                formData.currentReading
-              }
-              onChange={
-                handleChange
-              }
-              required
-            />
+<div className="form-field">
+  <label>Previous Reading (m³)</label>
 
-            <input
-              type="date"
-              name="readingDate"
-              value={
-                formData.readingDate
-              }
-              onChange={
-                handleChange
-              }
-              required
-            />
+  <input
+    type="number"
+    name="previousReading"
+    value={formData.previousReading}
+    onChange={handleChange}
+    required
+  />
+</div>
 
-            <input
-              type="date"
-              name="dueDate"
-              value={
-                formData.dueDate
-              }
-              onChange={
-                handleChange
-              }
-              required
-            />
+<div className="form-field">
+  <label>Current Reading (m³)</label>
+
+  <input
+    type="number"
+    name="currentReading"
+    value={formData.currentReading}
+    onChange={handleChange}
+    required
+  />
+</div>
+
+            <div className="form-field">
+  <label htmlFor="readingDate">
+    Reading Date
+  </label>
+
+  <input
+    type="date"
+    id="readingDate"
+    name="readingDate"
+    value={formData.readingDate}
+    onChange={handleChange}
+    required
+  />
+</div>
+
+<div className="form-field">
+  <label htmlFor="dueDate">
+    Due Date
+  </label>
+
+  <input
+    type="date"
+    id="dueDate"
+    name="dueDate"
+    value={formData.dueDate}
+    onChange={handleChange}
+    required
+  />
+</div>
 
             <input
               type="text"

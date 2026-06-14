@@ -7,11 +7,40 @@ import {
 } from "react-router-dom";
 
 import logo from "../assets/logo.png";
+import Select from "react-select";
 
 function ApplicationForm() {
 
   const navigate =
     useNavigate();
+
+    const barangayOptions = [
+  { value: "Alangilanan", label: "Alangilanan" },
+  { value: "Bala-as", label: "Bala-as" },
+  { value: "Bantolinao", label: "Bantolinao" },
+  { value: "Bolisong", label: "Bolisong" },
+  { value: "Butong", label: "Butong" },
+  { value: "Concepcion", label: "Concepcion" },
+  { value: "Libjo", label: "Libjo" },
+  { value: "Limayag", label: "Limayag" },
+  { value: "Lower Libjo", label: "Lower Libjo" },
+  { value: "Mandalupang", label: "Mandalupang" },
+  { value: "Poblacion", label: "Poblacion" },
+  { value: "Sac-Sac", label: "Sac-Sac" },
+  { value: "Salvacion", label: "Salvacion" },
+  { value: "San Isidro", label: "San Isidro" },
+  { value: "Sta. Monica", label: "Sta. Monica" },
+  { value: "Suba", label: "Suba" },
+  { value: "Sundo-an", label: "Sundo-an" },
+  { value: "Tubod", label: "Tubod" },
+  { value: "Tupas", label: "Tupas" },
+  { value: "Upper Bolisong", label: "Upper Bolisong" },
+  { value: "Upper Salvacion", label: "Upper Salvacion" },
+  { value: "Upper Sundo-an", label: "Upper Sundo-an" },
+];
+
+
+
 
   const [fullName, setFullName] =
     useState("");
@@ -57,7 +86,19 @@ function ApplicationForm() {
 
       e.preventDefault();
 
-      if (loading) return;
+if (loading) return;
+
+/* VALIDATE BARANGAY */
+
+if (!address) {
+
+  alert(
+    "Please select a barangay."
+  );
+
+  return;
+
+}
 
       // VALIDATION
       if (
@@ -230,10 +271,12 @@ function ApplicationForm() {
         </h1>
 
         <form
-          onSubmit={handleSubmit}
-          noValidate
-        >
-
+  onSubmit={handleSubmit}
+  noValidate
+  autoComplete="off"
+  data-form-type="other"
+>
+<div className="form-group">
           <input
             type="text"
             placeholder="Full Name"
@@ -244,8 +287,9 @@ function ApplicationForm() {
               )
             }
             required
-          />
+          /> </div>
 
+<div className="form-group">
           <input
             type="text"
             placeholder="Contact Number"
@@ -257,31 +301,47 @@ function ApplicationForm() {
             }
             required
           />
+          </div>
 
+<div className="form-group">
           <input
-            type="email"
-            placeholder="Email Address"
-            value={email}
-            onChange={(e) =>
-              setEmail(
-                e.target.value
-              )
-            }
-            required
-          />
+  type="text"
+  name="application_email"
+  placeholder="Email Address"
+  value={email}
+  autoComplete="new-email"
+  spellCheck="false"
+  onChange={(e) =>
+    setEmail(e.target.value)
+  }
+  required
+/>
+</div>
 
-          <input
-            type="text"
-            placeholder="Address"
-            value={address}
-            onChange={(e) =>
-              setAddress(
-                e.target.value
-              )
-            }
-            required
-          />
 
+<div className="form-group">
+  <input
+  type="text"
+  list="barangays"
+  placeholder="Search or select barangay..."
+  value={address}
+  onChange={(e) =>
+    setAddress(e.target.value)
+  }
+  required
+/>
+
+<datalist id="barangays">
+  {barangayOptions.map((barangay) => (
+    <option
+      key={barangay.value}
+      value={barangay.value}
+    />
+  ))}
+</datalist>
+</div>
+
+<div className="form-group">
           <input
             type="text"
             placeholder="Nearest Landmark"
@@ -291,8 +351,13 @@ function ApplicationForm() {
                 e.target.value
               )
             }
-          />
+          /> </div>
+          <div className="upload-label-note">
 
+           <i>Note in typing for nearest landmark: Type <b>None</b> or <b>N/A</b> if not applicable</i>
+
+          </div>
+<div className="form-group">
           <select
             value={connectionType}
             onChange={(e) =>
@@ -315,38 +380,41 @@ function ApplicationForm() {
               Commercial
             </option>
 
-          </select>
+          </select> </div>
+
+          <div className="form-group">
 
           <input
-            type="password"
-            placeholder="Create Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(
-                e.target.value
-              )
-            }
-            required
-          />
+  type="password"
+  name="new_application_password"
+  autoComplete="new-password"
+  placeholder="Create Password"
+  value={password}
+  onChange={(e) =>
+    setPassword(e.target.value)
+  }
+  required
+/>
+</div>
+          <div className="form-group"><input
+  type="password"
+  name="confirm_application_password"
+  autoComplete="new-password"
+  placeholder="Confirm Password"
+  value={confirmPassword}
+  onChange={(e) =>
+    setConfirmPassword(e.target.value)
+  }
+  required
+/></div>
 
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) =>
-              setConfirmPassword(
-                e.target.value
-              )
-            }
-            required
-          />
 
           <div className="upload-label">
 
             Upload / Submit Valid ID Picture
 
           </div>
-
+<div className="form-group">
           <input
             type="file"
             accept="image/*"
@@ -356,51 +424,70 @@ function ApplicationForm() {
               )
             }
           />
+</div>
+          <div className="agreement-section">
 
-          <div className="moa-box">
+  <label className="agree-checkbox">
 
-            <h3>
-              MEMORANDUM OF AGREEMENT
-            </h3>
+    <input
+      type="checkbox"
+      checked={agreeMOA}
+      onChange={(e) =>
+        setAgreeMOA(e.target.checked)
+      }
+    />
 
-            <p>
-              Application is hereby made for water services to be supplied by the
-              Manjuyod Waterworks Department to the water Consumer in accordance
-              with the existing local and national laws and its IRR, now in force
-              or may be in force thereafter.
-            </p>
+    <span>
+      I have read and agree to the{" "}
+      <span className="moa-tooltip">
 
-            <p>
-              In addition, I hereby agree to abide by the rules and regulations
-              provided in Municipal Ordinance No. 019 and the Water Code of the
-              Philippines, pay monthly bills within ten (10) days from receipt,
-              notify the proper offices for ownership transfer or service
-              discontinuance, allow authorized representatives to perform their
-              duties, maintain the water meter, avoid flying connections and
-              electric driven pumps directly from the main pipeline, and comply
-              with all terms of the water service agreement.
-            </p>
+        Memorandum of Agreement
 
-            <label className="agree-checkbox">
+        <span className="tooltip-content">
 
-              <input
-                type="checkbox"
-                checked={agreeMOA}
-                onChange={(e) =>
-                  setAgreeMOA(
-                    e.target.checked
-                  )
-                }
-              />
+          <strong>
+            Memorandum of Agreement
+          </strong>
 
-              I have read and agree to
-              the Memorandum of
-              Agreement.
+          <ul>
+            <li>
+              Water service shall comply with
+              applicable local and national laws.
+            </li>
 
-            </label>
+            <li>
+              Consumers must comply with
+              Municipal Ordinance No. 019 and
+              the Water Code of the Philippines.
+            </li>
 
-          </div>
+            <li>
+              Monthly bills must be paid within
+              ten (10) days from receipt.
+            </li>
 
+            <li>
+              Authorized personnel may inspect
+              and maintain water service
+              facilities.
+            </li>
+
+            <li>
+              Consumers shall avoid unauthorized
+              connections and prohibited
+              practices.
+            </li>
+
+          </ul>
+
+        </span>
+
+      </span>
+    </span>
+
+  </label>
+
+</div>
           <button
             type="submit"
             className="submit-btn"

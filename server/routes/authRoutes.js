@@ -208,9 +208,21 @@ router.post(
       } = req.body;
 
       const user =
-        await User.findOne({
-          email,
-        });
+  await User.findOne({
+    email,
+    isDeleted: {
+      $ne: true,
+    },
+  });
+
+        if (!user) {
+
+  return res.status(403).json({
+    message:
+      "Account not found or has been removed by the administrator.",
+  });
+
+}
 
       if (!user) {
 
@@ -315,6 +327,7 @@ router.post(
   }
 );
 
+
 /* =========================
 ADMIN LOGIN
 ========================= */
@@ -402,5 +415,80 @@ router.post(
 
   }
 );
+/* =========================
+GET SINGLE USER
+========================= */
 
+router.get(
+  "/user/:id",
+
+  async (req, res) => {
+
+    try {
+
+      const user =
+        await User.findById(
+          req.params.id
+        );
+
+      if (!user) {
+
+        return res.status(404).json({
+          message:
+            "User not found",
+        });
+
+      }
+
+      res.json({
+
+        _id:
+          user._id,
+
+        fullName:
+          user.fullName,
+
+        email:
+          user.email,
+
+        contactNumber:
+          user.contactNumber,
+
+        address:
+          user.address,
+
+        landmark:
+          user.landmark,
+
+        connectionType:
+          user.connectionType,
+
+        accountNumber:
+          user.accountNumber,
+
+        applicationStatus:
+          user.applicationStatus,
+
+        validId:
+          user.validId,
+
+      });
+
+    }
+
+    catch (error) {
+
+      console.log(error);
+
+      res.status(500).json({
+
+        message:
+          "Server Error",
+
+      });
+
+    }
+
+  }
+);
 module.exports = router;

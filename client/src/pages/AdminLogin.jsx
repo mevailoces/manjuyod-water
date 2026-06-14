@@ -101,11 +101,13 @@ export default function AdminLogin() {
           </h1>
 
           <form
-            onSubmit={handleLogin}
-          >
+  onSubmit={handleLogin}
+  autoComplete="off"
+>
 
             <input
               type="email"
+              autoComplete="off"
               placeholder="Email"
               value={email}
               onChange={(e) =>
@@ -118,6 +120,7 @@ export default function AdminLogin() {
 
             <input
               type="password"
+  autoComplete="new-password"
               placeholder="Password"
               value={password}
               onChange={(e) =>

@@ -26,23 +26,14 @@ const ResidentDashboard = () => {
      USER
   ========================= */
 
-  const user =
+  const [user, setUser] =
+  useState(
     JSON.parse(
       localStorage.getItem(
         "waterUser"
       )
-    ) || {
-
-      fullName:
-        "Resident User",
-
-      email:
-        "resident@email.com",
-
-      address:
-        "Manjuyod",
-
-    };
+    ) || null
+  );
 
   /* =========================
      PROFILE
@@ -68,6 +59,59 @@ const ResidentDashboard = () => {
 
   const [bills, setBills] =
     useState([]);
+
+    useEffect(() => {
+
+  const fetchUser =
+    async () => {
+
+      try {
+
+        const storedUser =
+          JSON.parse(
+            localStorage.getItem(
+              "waterUser"
+            )
+          );
+
+        if (
+          !storedUser?._id
+        ) return;
+
+        const response =
+          await fetch(
+            `https://manjuyod-water-production.up.railway.app/api/user/${storedUser._id}`
+          );
+
+        const latestUser =
+          await response.json();
+
+        setUser(
+          latestUser
+        );
+
+        localStorage.setItem(
+          "waterUser",
+          JSON.stringify(
+            latestUser
+          )
+        );
+
+      }
+
+      catch (error) {
+
+        console.log(
+          error
+        );
+
+      }
+
+    };
+
+  fetchUser();
+
+}, []);
 
   /* =========================
      FETCH REAL BILLING DATA
@@ -580,7 +624,17 @@ const ResidentDashboard = () => {
     If your application was rejected,
     please visit the Manjuyod Waterworks
     Department for clarification and
-    verification of submitted requirements.
+    verification of submitted requirements. </p>
+
+  <p>
+    Note: This account will be deleted after 7 days since
+    your application was rejected. This will give you the
+    opportunity to apply again. </p>
+
+  <p>
+    If approved, you may now access the
+    Resident Portal using your registered
+    email and password.
 
   </p>
 
@@ -635,7 +689,7 @@ const ResidentDashboard = () => {
 
               Visit the Municipal Hall
               Treasurer’s Office during office
-              hours (8:00 AM - 5:00 PM).
+              hours on Mondays to Fridays from 8:00 AM to 5:00 PM.
 
             </p>
 

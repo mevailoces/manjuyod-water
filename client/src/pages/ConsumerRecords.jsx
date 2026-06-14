@@ -482,10 +482,11 @@ function ConsumerRecords() {
 
                 <tr>
 
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Contact</th>
-                  <th>Address</th>
+                  <th>NAME</th>
+                  <th>EMAIL</th>
+                  <th>CONTACT</th>
+                  <th>ADDRESS</th>
+                  <th>NEAREST LANDMARK</th>
 
                 </tr>
 

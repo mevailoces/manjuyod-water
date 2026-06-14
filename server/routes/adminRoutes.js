@@ -11,6 +11,12 @@ const Bill =
 const Notification =
   require("../models/Notification");
 
+  const {
+  sendApprovalEmail,
+} = require(
+  "../services/emailService"
+);
+
 /* =========================
    GET ALL USERS
 ========================= */
@@ -65,12 +71,16 @@ router.get(
     try {
 
       const users =
-        await User.find({
+  await User.find({
 
-          applicationStatus:
-            "Approved",
+    applicationStatus:
+      "Approved",
 
-        })
+    isDeleted: {
+      $ne: true,
+    },
+
+  })
 
         .sort({
           createdAt: -1,
@@ -101,61 +111,96 @@ router.get(
 ========================= */
 
 router.put(
-  "/status/:id",
+"/status/:id",
 
-  async (req, res) => {
+async (req, res) => {
+
+
+try {
+
+  const user =
+    await User.findById(
+      req.params.id
+    );
+
+  if (!user) {
+
+    return res.status(404).json({
+      message:
+        "User not found",
+    });
+
+  }
+
+  user.applicationStatus =
+    req.body.status;
+
+  await user.save();
+
+  await Notification.create({
+
+    message:
+      `${user.fullName} application was ${req.body.status}`,
+
+    type:
+      "application-status",
+
+  });
+
+  if (
+    req.body.status ===
+    "Approved"
+  ) {
 
     try {
 
-      const user =
-        await User.findById(
-          req.params.id
-        );
+      await sendApprovalEmail(
 
-      if (!user) {
+        user.email,
 
-        return res.status(404).json({
-          message:
-            "User not found",
-        });
+        user.fullName
 
-      }
-
-      user.applicationStatus =
-        req.body.status;
-
-      await user.save();
-
-      await Notification.create({
-
-        message:
-          `${user.fullName} application was ${req.body.status}`,
-
-        type:
-          "application-status",
-
-      });
-
-      res.json({
-        message:
-          "Updated",
-      });
+      );
 
     }
 
-    catch (error) {
+    catch (emailError) {
 
-      console.log(error);
-
-      res.status(500).json({
-        message:
-          "Server Error",
-      });
+      console.log(
+        "Email Error:",
+        emailError
+      );
 
     }
 
   }
+
+  res.json({
+
+    message:
+      "Updated",
+
+  });
+
+}
+
+catch (error) {
+
+  console.log(error);
+
+  res.status(500).json({
+
+    message:
+      "Server Error",
+
+  });
+
+}
+
+
+}
 );
+
 /* =========================
    DELETE USER
 ========================= */
@@ -167,19 +212,38 @@ router.delete(
 
     try {
 
-      await User.findByIdAndUpdate(
+      const user =
+        await User.findByIdAndUpdate(
 
-        req.params.id,
+          req.params.id,
 
-        {
-          isDeleted: true,
-        }
+          {
+            isDeleted: true,
+          },
 
-      );
+          {
+            new: true,
+          }
+
+        );
+
+      if (!user) {
+        return res.status(404).json({
+          message: "User not found",
+        });
+      }
+
+      await Notification.create({
+        message:
+          `${user.fullName} application and account were removed.`,
+        type:
+          "account-delete",
+      });
 
       res.json({
         message:
-          "Application deleted",
+          "Application and account removed",
+        user,
       });
 
     }
