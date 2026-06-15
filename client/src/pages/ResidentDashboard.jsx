@@ -305,7 +305,7 @@ const ResidentDashboard = () => {
 
           `${bill.consumption} m³`,
 
-          `₱${bill.amount}`,
+         `PHP ${Number(bill.amount || 0).toFixed(2)}`,
 
           bill.status,
 
@@ -590,13 +590,12 @@ const ResidentDashboard = () => {
             </p>
 
             <button
-              className="download-btn"
-              onClick={
-                downloadStatement
-              }
-            >
-              Download Statement
-            </button>
+  className="download-btn"
+  onClick={downloadStatement}
+  disabled={bills.length === 0}
+>
+  Download Statement
+</button>
 
             <div className="payment-reminder">
 

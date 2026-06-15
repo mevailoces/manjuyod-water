@@ -104,7 +104,7 @@ function AdminDashboard() {
 
   const deleteUser = async (id) => {
     const confirmDelete = window.confirm(
-  "Delete this application and remove the resident account?"
+  "Are you sure? This will remove the application and block the resident from logging in."
 );
     if (!confirmDelete) return;
 
@@ -581,8 +581,21 @@ function AdminDashboard() {
                     <div key={item._id} className="notification-item">
                       <p>{item.message}</p>
                       <small>
-                        {new Date(item.createdAt).toLocaleString()}
-                      </small>
+  {new Date(item.createdAt).toLocaleString(
+    "en-PH",
+    {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+      timeZone: "Asia/Manila",
+    }
+  )} (GMT+8)
+</small>
                     </div>
                   ))
                 )}
@@ -660,8 +673,9 @@ function AdminDashboard() {
                       </td>
 
                       <td>
-                        <div className="action-buttons">
-                          {user.applicationStatus === "Approved" && (
+  <div className="action-buttons">
+
+  {user.applicationStatus === "Approved" && (
   <button
     className="icon-action print"
     onClick={() => openPrintForm(user)}
@@ -671,53 +685,53 @@ function AdminDashboard() {
   </button>
 )}
 
-                          <button
-className="icon-action view"
-onClick={() => {
-  if (!user.validId) {
-    alert("No Valid ID uploaded");
-    return;
-  }
+  <button
+    className="icon-action view"
+    onClick={() => {
+      if (!user.validId) {
+        alert("No Valid ID uploaded");
+        return;
+      }
 
-  window.open(
-    `${API_URL}/uploads/${user.validId}`,
-    "_blank"
-  );
-}}
-title="View Valid ID"
->
-👁️
-</button>
+      window.open(
+        `${API_URL}/uploads/${user.validId}`,
+        "_blank"
+      );
+    }}
+    title="View Valid ID"
+  >
+    👁️
+  </button>
 
-                         {user.applicationStatus === "Pending" && (
+  {user.applicationStatus === "Pending" && (
   <button
     className="icon-action success"
     onClick={() => updateStatus(user._id, "Approved")}
-    title="Approve"
   >
     <CheckCircle2 size={24} />
   </button>
 )}
-                          {user.applicationStatus === "Pending" && (
+
+ {user.applicationStatus === "Pending" && (
   <button
     className="icon-action warning"
     onClick={() => updateStatus(user._id, "Rejected")}
-    title="Reject"
   >
     <XCircle size={24} />
   </button>
 )}
 
-                         <button
-className="icon-action danger"
-onClick={() => deleteUser(user._id)}
-title="Delete"
->
-🗑️
-</button>
-                        </div>
-                      </td>
-                    </tr>
+  <button
+    className="icon-action danger"
+    onClick={() => deleteUser(user._id)}
+    title="Delete"
+  >
+    🗑️
+  </button>
+
+</div>
+</td>
+</tr>
                   ))
                 )}
               </tbody>

@@ -806,14 +806,10 @@ const [
 
                       </td>
 
-                      <td>
-
-                        ₱
-                        {
-                          bill.amount
-                        }
-
-                      </td>
+                      <td>{Number(bill.amount).toLocaleString("en-PH", {
+  style: "currency",
+  currency: "PHP"
+})}</td>
 
                       <td>
                         {

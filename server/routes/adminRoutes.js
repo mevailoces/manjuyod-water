@@ -29,17 +29,17 @@ router.get(
     try {
 
       const users =
-        await User.find({
+  await User.find({
+    isDeleted: {
+      $ne: true,
+    },
 
-          isDeleted: {
-            $ne: true,
-          },
-
-        })
-
-        .sort({
-          createdAt: -1,
-        });
+    applicationStatus: {
+      $in: ["Pending", "Rejected"],
+    },
+  }).sort({
+    createdAt: -1,
+  });
 
       res.json(users);
 
@@ -70,22 +70,12 @@ router.get(
 
     try {
 
-      const users =
-  await User.find({
-
-    applicationStatus:
-      "Approved",
-
-    isDeleted: {
-      $ne: true,
-    },
-
-  })
-
-        .sort({
-          createdAt: -1,
-        });
-
+   const users = await User.find({
+  applicationStatus: "Approved",
+  isDeleted: { $ne: true }
+}).sort({
+  createdAt: -1,
+});
       console.log(users);
 
       res.json(users);
@@ -207,24 +197,12 @@ catch (error) {
 
 router.delete(
   "/user/:id",
-
   async (req, res) => {
-
     try {
 
       const user =
-        await User.findByIdAndUpdate(
-
-          req.params.id,
-
-          {
-            isDeleted: true,
-          },
-
-          {
-            new: true,
-          }
-
+        await User.findById(
+          req.params.id
         );
 
       if (!user) {
@@ -233,22 +211,26 @@ router.delete(
         });
       }
 
-      await Notification.create({
-        message:
-          `${user.fullName} application and account were removed.`,
-        type:
-          "account-delete",
-      });
+      if (
+        user.applicationStatus ===
+        "Approved"
+      ) {
+        return res.status(400).json({
+          message:
+            "Approved consumers cannot be deleted.",
+        });
+      }
+
+      user.isDeleted = true;
+
+      await user.save();
 
       res.json({
         message:
-          "Application and account removed",
-        user,
+          "Application deleted successfully",
       });
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
       console.log(error);
 
@@ -258,7 +240,6 @@ router.delete(
       });
 
     }
-
   }
 );
 
