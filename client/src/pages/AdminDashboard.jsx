@@ -195,34 +195,37 @@ function AdminDashboard() {
   <title>Application and Contract of Water Services</title>
 
   <style>
-    @page {
-      size: A4;
-      margin: 14mm;
-    }
+   @page {
+  size: A4;
+  margin: 10mm;
+}
 
     * {
       box-sizing: border-box;
     }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      color: #000;
-      font-size: 12px;
-      line-height: 1.45;
-      margin: 0;
-      padding: 0;
-    }
+   body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #000;
+  font-size: 13px;
+  line-height: 1.6;
+}
 
     .page {
+    text-align: center;
       width: 100%;
     }
 
-    .header {
-      text-align: center;
-      margin-bottom: 12px;
-    }
+  .header {
+  text-align: center;
+
+  margin-bottom: 20px;
+
+  line-height: 1.2;
+}
 
     .header p {
+    text-align: center;
       margin: 2px 0;
     }
 
@@ -232,20 +235,36 @@ function AdminDashboard() {
       margin-top: 6px;
     }
 
-    .title {
-      text-align: center;
-      font-weight: bold;
-      font-size: 16px;
-      margin: 18px 0;
-      text-transform: uppercase;
-    }
+ .title {
+
+  text-align: center;
+  font-size: 18px;
+
+  margin: 20px 0;
+
+  text-decoration: underline;
+}
 
     .row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
-      align-items: flex-end;
-    }
+  display: grid;
+
+  grid-template-columns:
+    150px
+    1fr
+    140px
+    180px;
+
+  gap: 8px;
+
+  margin-bottom: 10px;
+
+  align-items: center;
+}
+  .row.single {
+  grid-template-columns:
+    150px
+    1fr;
+}
 
     .label {
       font-weight: bold;
@@ -298,25 +317,32 @@ function AdminDashboard() {
     }
 
     .signature-line {
-      border-top: 1px solid #000;
-      padding-top: 4px;
-      font-weight: bold;
-      min-height: 20px;
-    }
+  border-top: 1px solid #000;
+  padding-top: 6px;
+  width: 260px;
+  margin: 0 auto;
+  font-weight: bold;
+}
 
-    .checked-section {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      margin-top: 35px;
-      text-align: center;
-    }
+.checked-section {
+  display: grid;
 
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 20px;
+
+  margin-top: 30px;
+
+  text-align: center;
+}
     .approved {
-      width: 320px;
-      margin: 35px auto 20px;
-      text-align: center;
-    }
+  width: 350px;
+
+  margin: 40px auto 20px;
+
+  text-align: center;
+}
 
     .install-section {
       margin-top: 20px;
@@ -331,23 +357,39 @@ function AdminDashboard() {
       align-items: end;
       margin-bottom: 8px;
     }
+.install-grid {
+  display: grid;
 
-    .install-grid {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 8px;
-      margin-top: 10px;
-    }
+  grid-template-columns:
+    180px
+    1fr;
 
+  gap: 10px;
+
+  margin-top: 15px;
+}
     .install-label {
       font-weight: bold;
     }
+.install-value {
+  border-bottom: 1px solid #000;
 
-    .install-value {
-      border-bottom: 1px solid #000;
-      min-height: 18px;
-      padding: 0 4px;
-    }
+  min-height: 22px;
+
+  padding: 2px 5px;
+}
+      .electronic-consent {
+  margin-top: 25px;
+  margin-bottom: 25px;
+
+  padding: 10px;
+
+  border: 1px solid #000;
+
+  text-align: justify;
+
+  font-size: 11px;
+}
   </style>
 </head>
 
@@ -372,13 +414,13 @@ function AdminDashboard() {
       <span class="short-line">${escapeHtml(data.applicationNo)}</span>
     </div>
 
-    <div class="row">
+    <div class="row single">
       <span class="label">Address:</span>
       <span class="line">${escapeHtml(application.address)}</span>
     </div>
 
-    <div class="row">
-      <span class="label">Location of Service:</span>
+    <div class="row single">
+      <span class="label">Nearest Landmark:</span>
       <span class="line">${escapeHtml(application.landmark || application.address || "")}</span>
     </div>
 
@@ -412,20 +454,17 @@ function AdminDashboard() {
       <li>That the Manjuyod Waterworks Department shall be permitted for the interruption of the service due to causes beyond control and may disconnect the services upon violation of the terms of the contract, or when the Manjuyod Waterworks Department has reasonable grounds to believe that the Consumer is using water in violation of the existing rules and regulations;</li>
       <li>That this AGREEMENT shall not be binding unless it is signed by the applicant, the property-owner and approved by the Municipal Mayor or by his duly authorized representative.</li>
     </ol>
+<div class="electronic-consent">
 
-    <div class="signatures">
-      <div>
-        <div class="signature-line">${escapeHtml(application.fullName)}</div>
-        <div>(Name & Signature of Applicant)</div>
-      </div>
+  This application was submitted electronically through the
+  Manjuyod Waterworks Online Application and Monitoring System.
 
-      <div>
-        <div class="signature-line">&nbsp;</div>
-        <div>(Name & Signature of Building Owner)</div>
-      </div>
-    </div>
+  The applicant acknowledged and accepted the Memorandum of Agreement
+  during the online application process.
 
-    <div class="checked-section">
+</div>
+
+<div class="checked-section">
       <div>
         <p style="text-align:left;">Checked by:</p>
         <br />
@@ -480,6 +519,18 @@ function AdminDashboard() {
 
         <div class="install-label">Remarks</div>
         <div class="install-value">${escapeHtml(data.remarks)}</div>
+        <div
+  style="
+    text-align:center;
+    margin-bottom:15px;
+    font-size:11px;
+  "
+>
+
+Generated through the
+Manjuyod Waterworks Online Application and Monitoring System
+
+</div>
       </div>
     </div>
   </div>
@@ -703,6 +754,14 @@ function AdminDashboard() {
     👁️
   </button>
 
+  <button
+className="icon-action print"
+onClick={() => openPrintForm(user)}
+title="Print Application"
+>
+🖨️
+</button>
+
   {user.applicationStatus === "Pending" && (
   <button
     className="icon-action success"
@@ -893,11 +952,41 @@ function AdminDashboard() {
   type="button"
   className="generate-print-btn"
   onClick={() => {
-    if (!validateContractForm()) return;
+  const requiredFields = [
+    "applicationNo",
+    "purpose",
+    "size",
+    "installationFee",
+    "orNumber",
+    "orDate",
+    "serialNo",
+    "dateTested",
+    "initialReading",
+    "dateInstalled",
+    "installedBy"
+  ];
 
-    printApplication(selectedApplication, contractData);
-    setShowPrintForm(false);
-  }}
+  const missingFields = requiredFields.filter((field) => {
+  const value = contractData[field];
+
+  return (
+    value === undefined ||
+    value === null ||
+    value.toString().trim() === ""
+  );
+});
+
+console.log("Missing Fields:", missingFields);
+console.log("Contract Data:", contractData);
+
+  if (missingFields.length > 0) {
+    alert("Please complete all required fields before printing.");
+    return;
+  }
+
+  printApplication(selectedApplication, contractData);
+  setShowPrintForm(false);
+}}
 >
   Generate Document
 </button>

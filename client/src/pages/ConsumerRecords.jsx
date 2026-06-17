@@ -49,13 +49,18 @@ function ConsumerRecords() {
   const notificationRef =
     useRef(null);
 
+const [showBillingHistory, setShowBillingHistory] = useState(false);
+
+const [selectedConsumer, setSelectedConsumer] = useState(null);
+
+const [billingHistory, setBillingHistory] = useState([]);
+
+const [totalUnpaid, setTotalUnpaid] = useState(0);
+
   useEffect(() => {
-
-    fetchUsers();
-
-    fetchNotifications();
-
-  }, []);
+  fetchUsers();
+  fetchNotifications();
+}, []);
 
   const fetchUsers =
     async () => {
@@ -104,7 +109,39 @@ function ConsumerRecords() {
       }
 
     };
+const openBillingHistory = async (consumer) => {
 
+  try {
+
+    setSelectedConsumer(consumer);
+
+   const res = await axios.get(
+  `https://manjuyod-water-production.up.railway.app/api/admin/billing/user/${consumer._id}`
+);
+
+    setBillingHistory(res.data);
+
+    const unpaidTotal = res.data
+      .filter((bill) => bill.status !== "Paid")
+      .reduce(
+        (sum, bill) =>
+          sum + Number(bill.amount || 0),
+        0
+      );
+
+    setTotalUnpaid(unpaidTotal);
+
+    setShowBillingHistory(true);
+
+  } catch (error) {
+
+    console.log(error);
+
+    alert("Unable to load billing history.");
+
+  }
+
+};
   useEffect(() => {
 
     const handleClickOutside =
@@ -487,6 +524,7 @@ function ConsumerRecords() {
                   <th>CONTACT</th>
                   <th>ADDRESS</th>
                   <th>NEAREST LANDMARK</th>
+                  <th>ACTIONS</th>
 
                 </tr>
 
@@ -500,7 +538,7 @@ function ConsumerRecords() {
                     <tr>
 
                       <td
-                        colSpan="4"
+                        colSpan="6"
                         style={{
                           textAlign:"center",
                           padding:"20px",
@@ -518,35 +556,30 @@ function ConsumerRecords() {
                     filteredUsers.map(
                       (user) => (
 
-                        <tr
-                          key={user._id}
-                        >
+                        <tr key={user._id}>
 
-                          <td>
-                            {
-                              user.fullName
-                            }
-                          </td>
+  <td>{user.fullName}</td>
 
-                          <td>
-                            {
-                              user.email
-                            }
-                          </td>
+  <td>{user.email}</td>
 
-                          <td>
-                            {
-                              user.contactNumber
-                            }
-                          </td>
+  <td>{user.contactNumber}</td>
 
-                          <td>
-                            {
-                              user.address
-                            }
-                          </td>
+  <td>{user.address}</td>
 
-                        </tr>
+  <td>
+    {user.landmark || "N/A"}
+  </td>
+
+  <td>
+    <button
+  className="billing-history-btn"
+  onClick={() => openBillingHistory(user)}
+>
+  📄 View Billing History
+</button>
+  </td>
+
+</tr>
 
                       )
                     )
@@ -563,6 +596,102 @@ function ConsumerRecords() {
         </section>
 
       </main>
+
+      {showBillingHistory && (
+
+  <div className="billing-modal-overlay">
+
+    <div className="billing-modal">
+
+      <div className="billing-modal-header">
+
+        <h2>
+          Billing History
+        </h2>
+
+        <button
+          onClick={() =>
+            setShowBillingHistory(false)
+          }
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <h3>
+        {selectedConsumer?.fullName}
+      </h3>
+
+      <p>
+        Total Unpaid Balance:
+        <strong>
+          ₱{totalUnpaid}
+        </strong>
+      </p>
+
+      {totalUnpaid >= 1000 && (
+
+        <div className="disconnect-warning">
+
+          ⚠ FOR DISCONNECTION
+
+        </div>
+
+      )}
+
+      <table className="billing-history-table">
+
+        <thead>
+
+          <tr>
+
+            <th>Due Date</th>
+            <th>Consumption</th>
+            <th>Amount</th>
+            <th>Status</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          {billingHistory.map(
+            (bill) => (
+
+              <tr key={bill._id}>
+
+                <td>
+                  {bill.dueDate}
+                </td>
+
+                <td>
+                  {bill.consumption}m³
+                </td>
+
+                <td>
+                  ₱{bill.amount}
+                </td>
+
+                <td>
+                  {bill.status}
+                </td>
+
+              </tr>
+
+            )
+          )}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+)}
 
     </div>
 

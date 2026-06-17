@@ -720,6 +720,45 @@ const ResidentDashboard = () => {
             Billing Records
           </h2>
 
+          <div className="billing-total-box">
+  <strong>Total Unpaid Balance:</strong>{" "}
+  ₱{
+    bills
+      .filter((bill) => bill.status !== "Paid")
+      .reduce(
+        (sum, bill) =>
+          sum + Number(bill.amount || 0),
+        0
+      )
+  }
+</div>
+
+{
+  bills
+    .filter((bill) => bill.status !== "Paid")
+    .reduce(
+      (sum, bill) =>
+        sum + Number(bill.amount || 0),
+      0
+    ) >= 1000 && (
+
+    <div className="disconnect-warning">
+
+      ⚠ DISCONNECTION WARNING
+
+      <br /><br />
+
+      Your unpaid balance has reached
+      ₱1000 or above.
+
+      Please settle your account immediately
+      to avoid water service disconnection.
+
+    </div>
+
+  )
+}
+
           {bills.length === 0 ? (
 
             <div className="empty-history">
@@ -793,24 +832,19 @@ const ResidentDashboard = () => {
 
                   </div>
 
-                  <div>
+                  <div className="status-column">
 
-                    <span
-                      className={`bill-status ${
-                        bill.status ===
-                        "Paid"
+  <span
+    className={`bill-status ${
+      bill.status === "Paid"
+        ? "paid"
+        : "unpaid"
+    }`}
+  >
+    {bill.status}
+  </span>
 
-                          ? "paid"
-
-                          : "unpaid"
-                      }`}
-                    >
-
-                      {bill.status}
-
-                    </span>
-
-                  </div>
+</div>
 
                 </div>
 
