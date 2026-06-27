@@ -1,60 +1,46 @@
 const nodemailer = require("nodemailer");
 
-const transporter =
-  nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
-const sendApprovalEmail = async (
-  recipientEmail,
-  fullName
-) => {
-
+const sendRegistrationEmail = async (email, fullName) => {
   await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-
-    to: recipientEmail,
-
-    subject:
-      "Manjuyod Waterworks Application Approved",
-
+    from: `"Manjuyod Waterworks" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: "Application Received - Manjuyod Waterworks",
     html: `
-      <h2>Application Approved</h2>
+      <h2>Application Received</h2>
+
+      <p>Dear <b>${fullName}</b>,</p>
 
       <p>
-        Dear ${fullName},
+        Thank you for registering with the Manjuyod Waterworks Online
+        Application and Monitoring System.
       </p>
 
       <p>
-        Your application for water service
-        has been approved by the
-        Manjuyod Waterworks Department.
+        Your application has been successfully received and is now pending
+        review by the Waterworks Administrator.
       </p>
 
       <p>
-        You may now access the Resident
-        Portal using your registered
-        email and password.
+        You will receive another notification once your application is approved
+        or rejected.
       </p>
 
-      <p>
-        Thank you for using our service.
-      </p>
+      <br />
 
-      <br>
-
-      <strong>
-        Manjuyod Waterworks Department
-      </strong>
+      <p>Thank you,</p>
+      <b>Manjuyod Waterworks Office</b>
     `,
   });
-
 };
 
 module.exports = {
-  sendApprovalEmail,
+  sendRegistrationEmail,
 };
