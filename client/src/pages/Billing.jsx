@@ -43,6 +43,50 @@ const canMarkPaid =
 const canViewOnly =
   role === "admin";
 
+  const getNextReadingDate = (latestReadingDate) => {
+
+  if (!latestReadingDate) {
+    return "";
+  }
+
+  const date =
+    new Date(latestReadingDate);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  date.setMonth(
+    date.getMonth() + 1
+  );
+
+  return date
+    .toISOString()
+    .split("T")[0];
+
+};
+const getDueDate = (readingDate) => {
+
+  if (!readingDate) {
+    return "";
+  }
+
+  const date =
+    new Date(readingDate);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  date.setDate(
+    date.getDate() + 10
+  );
+
+  return date
+    .toISOString()
+    .split("T")[0];
+
+};
   const [users, setUsers] =
     useState([]);
 
@@ -594,27 +638,88 @@ useEffect(() => {
 
             className="consumer-suggestion-item"
 
-            onClick={() => {
+           onClick={async () => {
 
-              setFormData({
+  try {
 
-                ...formData,
+    const res =
+      await axios.get(
+        `https://manjuyod-water-production.up.railway.app/api/admin/billing/user/${user._id}`
+      );
 
-                userId:
-                  user._id,
+    const latestBill =
+      res.data && res.data.length > 0
+        ? res.data[0]
+        : null;
 
-                accountNumber:
-                  user.accountNumber,
+    setFormData({
 
-              });
+      ...formData,
 
-              setConsumerSearch(
-                `${user.fullName}`
-              );
+      userId:
+        user._id,
 
-              setShowSuggestions(false);
+      accountNumber:
+        user.accountNumber,
 
-            }}
+      previousReading:
+        latestBill
+          ? latestBill.currentReading
+          : "",
+
+         readingDate:
+  latestBill
+    ? getNextReadingDate(latestBill.readingDate)
+    : "",
+
+dueDate:
+  latestBill
+    ? getDueDate(
+        getNextReadingDate(latestBill.readingDate)
+      )
+    : "",
+
+      meterReaderName:
+        admin?.name || "Meter Reader",
+
+    });
+
+    setConsumerSearch(
+      `${user.fullName}`
+    );
+
+    setShowSuggestions(false);
+
+  } catch (error) {
+
+    console.log(error);
+
+    setFormData({
+
+      ...formData,
+
+      userId:
+        user._id,
+
+      accountNumber:
+        user.accountNumber,
+
+      previousReading: "",
+
+      meterReaderName:
+        admin?.name || "Meter Reader",
+
+    });
+
+    setConsumerSearch(
+      `${user.fullName}`
+    );
+
+    setShowSuggestions(false);
+
+  }
+
+}}
 
           >
 
@@ -654,12 +759,17 @@ useEffect(() => {
   <label>Previous Reading (m³)</label>
 
   <input
-    type="number"
-    name="previousReading"
-    value={formData.previousReading}
-    onChange={handleChange}
-    required
-  />
+  type="number"
+  name="previousReading"
+  value={formData.previousReading}
+  onChange={handleChange}
+  readOnly
+  required
+/>
+
+<small className="input-note">
+  Auto-filled from the consumer's latest reading.
+</small>
 </div>
 
 <div className="form-field">
