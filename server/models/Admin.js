@@ -26,7 +26,7 @@ default:Date.now,
 
 role: {
   type: String,
-  enum: ["admin", "cashier"],
+  enum: ["admin", "cashier","meterReader"],
   default: "admin",
 },
 

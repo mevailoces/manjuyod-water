@@ -34,6 +34,15 @@ function Billing() {
 
 const role = admin?.role || "admin";
 
+const canCreateBill =
+  role === "meterReader";
+
+const canMarkPaid =
+  role === "cashier";
+
+const canViewOnly =
+  role === "admin";
+
   const [users, setUsers] =
     useState([]);
 
@@ -91,12 +100,13 @@ useEffect(() => {
     return;
   }
 
-  if (
-    role !== "admin" &&
-    role !== "cashier"
-  ) {
-    navigate("/");
-  }
+ if (
+  role !== "admin" &&
+  role !== "cashier" &&
+  role !== "meterReader"
+) {
+  navigate("/");
+}
 
 }, [admin, role, navigate]);
   const fetchUsers =
@@ -229,9 +239,12 @@ useEffect(() => {
       try {
 
         await axios.post(
-          "https://manjuyod-water-production.up.railway.app/api/admin/billing/create",
-          formData
-        );
+  "https://manjuyod-water-production.up.railway.app/api/admin/billing/create",
+  {
+    ...formData,
+    meterReaderName: admin?.name || "Meter Reader",
+  }
+);
 
         alert(
           "Bill created successfully"
@@ -417,6 +430,8 @@ useEffect(() => {
             <p className="topbar-label">
   {role === "cashier"
     ? "CASHIER PORTAL"
+    : role === "meterReader"
+    ? "METER READER PORTAL"
     : "ADMIN PORTAL - VIEW ONLY"}
 </p>
 
@@ -504,7 +519,7 @@ useEffect(() => {
         </header>
 
         <section className="table-section">
-{role === "cashier" && (
+{canCreateBill && (
           <form
             onSubmit={
               handleCreateBill
@@ -690,17 +705,13 @@ useEffect(() => {
 </div>
 
             <input
-              type="text"
-              name="meterReaderName"
-              placeholder="Meter Reader Name"
-              value={
-                formData.meterReaderName
-              }
-              onChange={
-                handleChange
-              }
-              required
-            />
+  type="text"
+  name="meterReaderName"
+  placeholder="Meter Reader Name"
+  value={admin?.name || "Meter Reader"}
+  readOnly
+  required
+/>
 
             <button
               type="submit"

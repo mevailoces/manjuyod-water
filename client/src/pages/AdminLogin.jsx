@@ -50,7 +50,10 @@ export default function AdminLogin() {
   JSON.stringify(data.admin)
 );
 
-if (data.admin.role === "cashier") {
+if (
+  data.admin.role === "cashier" ||
+  data.admin.role === "meterReader"
+) {
   navigate("/billing");
 } else {
   navigate("/admin-dashboard");
