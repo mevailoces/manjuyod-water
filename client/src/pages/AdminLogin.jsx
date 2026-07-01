@@ -46,13 +46,15 @@ export default function AdminLogin() {
         alert(data.message);
 
         localStorage.setItem(
-          "admin",
-          JSON.stringify(data.admin)
-        );
+  "admin",
+  JSON.stringify(data.admin)
+);
 
-        navigate(
-          "/admin-dashboard"
-        );
+if (data.admin.role === "cashier") {
+  navigate("/billing");
+} else {
+  navigate("/admin-dashboard");
+}
 
       } else {
 

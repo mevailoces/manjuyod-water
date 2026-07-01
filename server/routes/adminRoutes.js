@@ -237,15 +237,17 @@ router.post(
       } = req.body;
 
       const consumption =
+  Number(currentReading) -
+  Number(previousReading);
 
-        Number(currentReading)
+let rate = 5;
 
-        -
+if (consumption >= 6) {
+  rate = 10;
+}
 
-        Number(previousReading);
-
-      const amount =
-        consumption * 25;
+const amount =
+  consumption * rate;
 
       const bill =
         await Bill.create({

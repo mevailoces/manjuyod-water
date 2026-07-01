@@ -1512,3 +1512,8 @@ margin-top:5px;
 .billing-history-btn:active {
   transform: translateY(0);
 }
+.view-only-label {
+  color: #64748b;
+  font-weight: 600;
+  font-size: 13px;
+}

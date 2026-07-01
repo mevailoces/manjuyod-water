@@ -19,6 +19,11 @@ import { useNavigate } from "react-router-dom";
 function AdminDashboard() {
   const navigate = useNavigate();
 
+  const admin =
+  JSON.parse(localStorage.getItem("admin"));
+
+const role = admin?.role || "admin";
+
   const API_URL = "https://manjuyod-water-production.up.railway.app";
 
   const emptyContractData = {
@@ -54,6 +59,24 @@ function AdminDashboard() {
     fetchUsers();
     fetchNotifications();
   }, []);
+
+  useEffect(() => {
+
+  if (!admin) {
+
+    navigate("/");
+
+    return;
+
+  }
+
+  if (role === "cashier") {
+
+    navigate("/billing");
+
+  }
+
+}, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -672,15 +695,7 @@ Manjuyod Waterworks Online Application and Monitoring System
               />
             </div>
 
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="All">All Status</option>
-              <option value="Pending">Pending</option>
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
-            </select>
+           {/* Status filter removed */}
           </div>
 
           <div className="table-wrapper">

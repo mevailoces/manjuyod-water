@@ -393,16 +393,15 @@ router.post(
         );
 
       res.status(200).json({
-
-        message:
-          "Admin Login Success",
-
-        token,
-
-        admin,
-
-      });
-
+  message: "Admin Login Success",
+  token,
+  admin: {
+    _id: admin._id,
+    name: admin.name,
+    email: admin.email,
+    role: admin.role,
+  },
+});
     }
 
     catch (error) {

@@ -29,6 +29,11 @@ function Billing() {
   const navigate =
     useNavigate();
 
+    const admin =
+  JSON.parse(localStorage.getItem("admin"));
+
+const role = admin?.role || "admin";
+
   const [users, setUsers] =
     useState([]);
 
@@ -79,7 +84,21 @@ const [
     fetchNotifications();
 
   }, []);
+useEffect(() => {
 
+  if (!admin) {
+    navigate("/");
+    return;
+  }
+
+  if (
+    role !== "admin" &&
+    role !== "cashier"
+  ) {
+    navigate("/");
+  }
+
+}, [admin, role, navigate]);
   const fetchUsers =
   async () => {
 
@@ -328,55 +347,51 @@ const [
 
         </div>
 
-        <nav className="sidebar-nav">
+       <nav className="sidebar-nav">
 
-          <button
-            className="nav-item"
-            onClick={() =>
-              navigate(
-                "/admin-dashboard"
-              )
-            }
-          >
+  {role === "admin" && (
 
-            <FileText size={18} />
+    <>
+      <button
+        className="nav-item"
+        onClick={() =>
+          navigate("/admin-dashboard")
+        }
+      >
+        <FileText size={18} />
 
-            <span>
-              Application Management
-            </span>
+        <span>
+          Application Management
+        </span>
+      </button>
 
-          </button>
+      <button
+        className="nav-item"
+        onClick={() =>
+          navigate("/consumer-records")
+        }
+      >
+        <Users size={18} />
 
-          <button
-            className="nav-item"
-            onClick={() =>
-              navigate(
-                "/consumer-records"
-              )
-            }
-          >
+        <span>
+          Consumer Records
+        </span>
+      </button>
+    </>
 
-            <Users size={18} />
+  )}
 
-            <span>
-              Consumer Records
-            </span>
+  <button
+    className="nav-item active"
+  >
+    <Receipt size={18} />
 
-          </button>
+    <span>
+      Billing
+    </span>
+  </button>
 
-          <button
-            className="nav-item active"
-          >
-
-            <Receipt size={18} />
-
-            <span>
-              Billing
-            </span>
-
-          </button>
-
-        </nav>
+</nav>
 
         <button
           className="logout-btn"
@@ -400,8 +415,10 @@ const [
           <div>
 
             <p className="topbar-label">
-              ADMIN PORTAL
-            </p>
+  {role === "cashier"
+    ? "CASHIER PORTAL"
+    : "ADMIN PORTAL - VIEW ONLY"}
+</p>
 
             <h2>
               Billing Management
@@ -487,7 +504,7 @@ const [
         </header>
 
         <section className="table-section">
-
+{role === "cashier" && (
           <form
             onSubmit={
               handleCreateBill
@@ -695,35 +712,35 @@ const [
             </button>
 
           </form>
+          )}
 
-          <div className="billing-guide">
+         <div className="billing-guide">
+  <h4>Billing Rate Guide</h4>
 
-            <h4>
-              Billing Rate Guide
-            </h4>
+  <p>
+    <strong>1–5 cubic meters (m³):</strong> ₱5 per cubic meter
+  </p>
 
-            <p>
+  <p>
+    <strong>6 cubic meters and above:</strong> ₱10 per cubic meter
+  </p>
 
-              Current Water Rate:
-              <strong>
-                ₱25 per cubic meter (m³)
-              </strong>
+  <hr style={{ margin: "10px 0", opacity: 0.2 }} />
 
-            </p>
+  <p>
+    <strong>Formula:</strong>
+  </p>
 
-            <p>
+  <p>
+    • If consumption is <strong>1–5 m³</strong>:<br />
+    <code>(Current Reading − Previous Reading) × ₱5</code>
+  </p>
 
-              Formula:
-              <strong>
-
-                {" "}
-                (Current Reading - Previous Reading) × ₱25
-
-              </strong>
-
-            </p>
-
-          </div>
+  <p>
+    • If consumption is <strong>6 m³ and above</strong>:<br />
+    <code>(Current Reading − Previous Reading) × ₱10</code>
+  </p>
+</div>
 
         </section>
 
@@ -827,34 +844,34 @@ const [
 
                       <td>
 
-                        {bill.status ===
-                        "Unpaid" ? (
+                        {bill.status === "Unpaid" ? (
 
-                          <button
-                            className="primary-btn"
-                            onClick={() =>
-                              markAsPaid(
-                                bill._id
-                              )
-                            }
-                          >
+  role === "cashier" ? (
 
-                            Mark Paid
+    <button
+      className="primary-btn"
+      onClick={() =>
+        markAsPaid(bill._id)
+      }
+    >
+      Mark Paid
+    </button>
 
-                          </button>
+  ) : (
 
-                        ) : (
+    <span className="view-only-label">
+      View Only
+    </span>
 
-                          <span>
+  )
 
-                            Paid on{" "}
-                            {
-                              bill.paidDate
-                            }
+) : (
 
-                          </span>
+  <span>
+    Paid on {bill.paidDate}
+  </span>
 
-                        )}
+)}
 
                       </td>
 

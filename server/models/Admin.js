@@ -24,6 +24,12 @@ type:Date,
 default:Date.now,
 },
 
+role: {
+  type: String,
+  enum: ["admin", "cashier"],
+  default: "admin",
+},
+
 });
 
 module.exports =
