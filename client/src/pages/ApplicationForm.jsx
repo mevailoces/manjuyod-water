@@ -411,7 +411,7 @@ if (!address) {
 
           <div className="upload-label">
 
-            Upload / Submit Valid ID Picture
+           Upload / Submit Barangay ID or National ID Picture
 
           </div>
 <div className="form-group">
@@ -424,6 +424,10 @@ if (!address) {
               )
             }
           />
+
+          <p className="input-note">
+  Only Barangay ID or National ID is accepted.
+</p>
 </div>
           <div className="agreement-section">
 
