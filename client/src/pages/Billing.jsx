@@ -804,14 +804,18 @@ dueDate:
     Due Date
   </label>
 
-  <input
-    type="date"
-    id="dueDate"
-    name="dueDate"
-    value={formData.dueDate}
-    onChange={handleChange}
-    required
-  />
+ <input
+  type="date"
+  id="dueDate"
+  name="dueDate"
+  value={formData.dueDate}
+  readOnly
+  required
+/>
+
+<small className="input-note">
+  Due date is automatically set 10 days after the reading date.
+</small>
 </div>
 
             <input
