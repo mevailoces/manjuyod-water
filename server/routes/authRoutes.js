@@ -17,9 +17,6 @@ const Admin = require("../models/Admin");
 const Notification =
   require("../models/Notification");
 
-  const {
-  sendRegistrationEmail,
-} = require("../services/emailService");
 
 /* =========================
 MULTER CONFIG
@@ -160,14 +157,7 @@ router.post(
 
       await newUser.save();
 
-      try {
-  await sendRegistrationEmail(
-    newUser.email,
-    newUser.fullName
-  );
-} catch (emailError) {
-  console.log("Registration Email Error:", emailError);
-}
+
 
       /* CREATE NOTIFICATION */
 
