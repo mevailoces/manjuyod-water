@@ -11,11 +11,7 @@ const Bill =
 const Notification =
   require("../models/Notification");
 
-  const {
-  sendApprovalEmail,
-} = require(
-  "../services/emailService"
-);
+
 
 /* =========================
    GET ALL USERS
