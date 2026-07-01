@@ -133,33 +133,7 @@ try {
 
   });
 
-  if (
-    req.body.status ===
-    "Approved"
-  ) {
 
-    try {
-
-      await sendApprovalEmail(
-
-        user.email,
-
-        user.fullName
-
-      );
-
-    }
-
-    catch (emailError) {
-
-      console.log(
-        "Email Error:",
-        emailError
-      );
-
-    }
-
-  }
 
   res.json({
 
