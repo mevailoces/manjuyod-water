@@ -515,10 +515,6 @@ const role = admin?.role || "admin";
       <div class="install-row">
         <div class="install-label">Installation Fee</div>
         <div class="install-value">₱ ${escapeHtml(data.installationFee)}</div>
-        <div class="install-label">O.R. No.</div>
-        <div class="install-value">${escapeHtml(data.orNumber)}</div>
-        <div class="install-label">Date</div>
-        <div class="install-value">${escapeHtml(data.orDate)}</div>
       </div>
 
       <div class="install-grid">
@@ -869,28 +865,6 @@ title="Print Application"
               </div>
 
               <div>
-                <label>O.R. No.</label>
-                <input
-                required
-                  name="orNumber"
-                  value={contractData.orNumber}
-                  onChange={handleContractChange}
-                  placeholder="Official Receipt No."
-                />
-              </div>
-
-              <div>
-                <label>O.R. Date</label>
-                <input
-                required
-                  type="date"
-                  name="orDate"
-                  value={contractData.orDate}
-                  onChange={handleContractChange}
-                />
-              </div>
-
-              <div>
                 <label>Serial No.</label>
                 <input
                 required
@@ -972,8 +946,6 @@ title="Print Application"
     "purpose",
     "size",
     "installationFee",
-    "orNumber",
-    "orDate",
     "serialNo",
     "dateTested",
     "initialReading",
